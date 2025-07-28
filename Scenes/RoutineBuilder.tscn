@@ -38,6 +38,8 @@ text = "Routine Name"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+theme_override_constants/minimum_character_width = 24
+max_length = 24
 
 [node name="Back2" type="Button" parent="HBoxContainer2"]
 unique_name_in_owner = true

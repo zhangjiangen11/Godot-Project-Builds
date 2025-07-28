@@ -82,10 +82,10 @@ func _on_move_right_pressed() -> void:
 "
 
 [node name="Routinepreview" type="PanelContainer"]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(400, 0)
 offset_right = 303.0
 offset_bottom = 203.0
-size_flags_vertical = 0
+size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_e2baq")
 script = SubResource("GDScript_s214c")
 
@@ -125,6 +125,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 modulate = Color(0.8, 0.8, 0.8, 1)
 layout_mode = 2
+size_flags_vertical = 3
 horizontal_alignment = 1
 
 [node name="GridContainer" type="HBoxContainer" parent="VBoxContainer"]
