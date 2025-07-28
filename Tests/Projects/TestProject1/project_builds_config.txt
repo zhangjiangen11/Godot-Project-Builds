@@ -43,6 +43,8 @@
 "on_fail": 0,
 "tasks": Array[Dictionary]([{
 "data": {
+"exclude_files": "",
+"include_files": "",
 "target_directory": "DeepDir"
 },
 "scene": "ClearDirectory"

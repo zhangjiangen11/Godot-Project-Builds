@@ -6,6 +6,8 @@
 script/source = "extends \"ScriptTask.gd\"
 
 @onready var target_directory: HBoxContainer = %TargetDirectory
+@onready var file_filter: LineEdit = %FileFilter
+@onready var file_filter2: LineEdit = %FileFilter2
 
 func _get_task_name() -> String:
 	return \"Clear Directory Files\"
@@ -15,6 +17,8 @@ func _get_execute_string() -> String:
 
 func _initialize() -> void:
 	defaults[\"target_directory\"] = \"\"
+	defaults[\"include_files\"] = \"\"
+	defaults[\"exclude_files\"] = \"\"
 
 func _validate() -> bool:
 	if not DirAccess.dir_exists_absolute(Data.resolve_path(target_directory.text)):
@@ -23,26 +27,36 @@ func _validate() -> bool:
 	
 	return true
 
-func _get_command() -> String:
-	return OS.get_executable_path()
-
 func _get_arguments() -> PackedStringArray:
 	var ret := super()
 	
 	ret.append(Data.resolve_path(target_directory.text))
 	
+	if not file_filter.text.is_empty():
+		ret.append(\"--include\")
+		ret.append_array(file_filter.text.split(\" \"))
+	if not file_filter2.text.is_empty():
+		ret.append(\"--exclude\")
+		ret.append_array(file_filter2.text.split(\" \"))
+	
 	return ret
 
 func _load() -> void:
 	target_directory.text = data[\"target_directory\"]
+	file_filter.text = data[\"include_files\"]
+	file_filter2.text = data[\"exclude_files\"]
 
 func _store() -> void:
 	data[\"target_directory\"] = target_directory.text
+	data[\"include_files\"] = file_filter.text
+	data[\"exclude_files\"] = file_filter2.text
 
 func _get_task_info() -> PackedStringArray:
 	return [
 		\"Clears all files in a directory. The files are not deleted, but moved to a special Trash directory in Project Builder's user data. The operation is not recursive.\",
 		\"Target Directory|The directory to be cleared.\",
+		\"Include Files|List of filters for files from the directory. Example: \\\"*.exe *.pck\\\". If empty, all files will be packed. Otherwise only files that match the filter will be included.\",
+		\"Exclude Files|Filters files from the directory. Files that match this filter will be excluded.\",
 	]
 "
 
@@ -65,3 +79,29 @@ layout_mode = 2
 size_flags_horizontal = 3
 scope = 1
 missing_mode = 1
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Include Files"
+horizontal_alignment = 2
+
+[node name="FileFilter" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Space-separated list of filters, e.g. \"*.exe\". Leave empty to include all."
+
+[node name="Label4" type="Label" parent="."]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Exclude Files"
+horizontal_alignment = 2
+
+[node name="FileFilter2" type="LineEdit" parent="."]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Space-separated list of filters. Leave empty to exclude none."

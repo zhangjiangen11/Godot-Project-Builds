@@ -30,9 +30,6 @@ func _validate() -> bool:
 	
 	return true
 
-func _get_command() -> String:
-	return OS.get_executable_path()
-
 func _get_arguments() -> PackedStringArray:
 	var ret := super()
 	

@@ -189,6 +189,8 @@ This task is useful for preparing export directory, to make sure that it doesn't
 
 **Options**
 - **Target Directory:** The directory in your project that's going to be cleaned.
+- **Include Files:** Filters applied to each processed file to determine whether it should be included. Use it when you want to delete only some files of the directory. If empty, files will be included by default.
+- **Exclude Files:** Filters applied to each processed file to determine whether it should be excluded. Use it when your directory has files that shouldn't be deleted. If empty, no file will be excluded by default.
 
 ### Copy Files(s)
 
@@ -249,8 +251,8 @@ Useful when you want to pack an exported project to share it. The ZIP is created
 **Options**
 - **Source Directory:** The directory which is going to be packed. The ZIP will have the same structure.
 - **Target File Path:** The path to the resulting ZIP file.
-- **Include Filters:** Filters applied to each processed file to determine whether it should be included. Use it when you want to pack only some files of the directory. If empty, files will be included by default.
-- **Exclude Filters:** Filters applied to each processed file to determine whether it should be excluded. Use it when your directory has files that shouldn't be packed. If empty, no file will be excluded by default.
+- **Include Files:** Filters applied to each processed file to determine whether it should be included. Use it when you want to pack only some files of the directory. If empty, files will be included by default.
+- **Exclude Files:** Filters applied to each processed file to determine whether it should be excluded. Use it when your directory has files that shouldn't be packed. If empty, no file will be excluded by default.
 
 ### Sub-Routine
 
