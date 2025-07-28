@@ -32,12 +32,14 @@ func _init() -> void:
 		if task.get_extension() == "tscn":
 			register_task(task_path.path_join(task))
 	
+	var global_defaults = {"project_builder_path": "", "project_builder_executable": "", "custom_project_list": ""}
+	
 	var global_config_file := FileAccess.open("user://".path_join(CONFIG_FILE), FileAccess.READ)
 	if global_config_file:
 		global_config = str_to_var(global_config_file.get_as_text())
+		global_config.merge(global_defaults)
 	else:
-		global_config["project_builder_path"] = ""
-		global_config["project_builder_executable"] = ""
+		global_config = global_defaults
 	
 	save_local_timer = Timer.new()
 	save_local_timer.wait_time = 0.5

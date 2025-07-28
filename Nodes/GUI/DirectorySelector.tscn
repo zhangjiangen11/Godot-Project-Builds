@@ -16,6 +16,7 @@ enum MissingMode { IGNORE, WARN, ERROR }
 @export var scope: Scope
 @export var missing_mode: MissingMode
 @export var filters: PackedStringArray
+@export var empty_is_valid: bool
 
 signal path_changed
 
@@ -62,6 +63,10 @@ func validate():
 		return
 	
 	var path := line_edit.text
+	if empty_is_valid and path.is_empty():
+		modulate = Color.WHITE
+		return
+	
 	if scope == Scope.PROJECT:
 		path = Data.project_path.path_join(path)
 	

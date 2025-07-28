@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://eu3eioilmxkb"]
+[gd_scene load_steps=3 format=3 uid="uid://eu3eioilmxkb"]
 
 [ext_resource type="Script" uid="uid://drooidtlec0og" path="res://Scenes/ProjectManager.gd" id="1_edpqn"]
+[ext_resource type="PackedScene" uid="uid://cyl1d6reu3mk4" path="res://Nodes/GUI/DirectorySelector.tscn" id="2_8a1pu"]
 
 [node name="ProjectManager" type="ScrollContainer"]
 anchors_preset = 15
@@ -13,5 +14,38 @@ metadata/_edit_lock_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Custom Project List"
+
+[node name="CustomList" parent="VBoxContainer/HBoxContainer" instance=ExtResource("2_8a1pu")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+mode = 1
+missing_mode = 2
+filters = PackedStringArray("*.cfg")
+empty_is_valid = true
+
+[node name="Over" type="Label" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+text = "Overridden by cmd argument."
+
+[node name="Projects" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 3
+
+[connection signal="path_changed" from="VBoxContainer/HBoxContainer/CustomList" to="." method="project_list_path_changed"]

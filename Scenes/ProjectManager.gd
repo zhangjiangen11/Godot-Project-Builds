@@ -1,5 +1,9 @@
 extends Control
 
+@onready var custom_list: HBoxContainer = %CustomList
+@onready var projects: VBoxContainer = %Projects
+@onready var over: Label = %Over
+
 var user_arguments := OS.get_cmdline_user_args()
 
 func _ready() -> void:
@@ -26,13 +30,34 @@ func _ready() -> void:
 	if i > -1:
 		printerr("--exit argument provided, but no --execute-routine. It will be ignored.")
 	
-	var editor_data := OS.get_user_data_dir().get_base_dir().get_base_dir()
+	custom_list.text = Data.global_config["custom_project_list"]
+	load_project_list()
+
+func load_project_list():
+	for project in projects.get_children():
+		project.queue_free()
+	
+	var projects_path: String = custom_list.text
+	
+	var i := user_arguments.find("--projects-file-path")
+	if i > -1:
+		if user_arguments.size() < i + 2:
+			push_warning("--projects-file-path -- Missing projects file path.")
+		else:
+			over.show()
+			projects_path = user_arguments[i + 1]
+	
+	if not FileAccess.file_exists(projects_path):
+		var editor_data := OS.get_user_data_dir().get_base_dir().get_base_dir()
+		projects_path = editor_data.path_join("projects.cfg")
+	
 	var project_list := ConfigFile.new()
-	project_list.load(editor_data.path_join("projects.cfg"))
+	if project_list.load(projects_path) != OK:
+		return
 	
 	for project in project_list.get_sections():
 		var project_entry := preload("res://Nodes/ProjectEntry.tscn").instantiate()
-		$VBoxContainer.add_child(project_entry)
+		projects.add_child(project_entry)
 		project_entry.set_project(project, load_project)
 
 func load_project(project: String):
@@ -73,3 +98,8 @@ func print_routines_and_exit():
 	
 	if Data.auto_exit:
 		get_tree().quit(1)
+
+func project_list_path_changed() -> void:
+	Data.global_config["custom_project_list"] = custom_list.text
+	Data.save_global_config()
+	load_project_list()

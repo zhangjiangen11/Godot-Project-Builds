@@ -10,7 +10,9 @@ Project Builder can be launched from a release executable or from source, using 
 
 ![](Media/ProjectList.png)
 
-It's similar to Godot's own Project Manager, but more minimal. It automatically lists the projects you have registered in Godot, with information whether Project Builder is configured for that project and how many routines it has. Clicking a project will open the main project view.
+It's similar to Godot's own Project Manager, but more minimal. It automatically lists the projects you have registered in Godot, with information whether Project Builder is configured for that project and how many routines it has. You can provide a custom project list file (in case you run in self-contained mode or just want the list to be better organized), by setting it in the text field at the top.
+
+Clicking a project will open the main project view.
 
 ![](Media/MainRoutines.png)
 
@@ -161,6 +163,7 @@ The addon also adds a Project Builder submenu to Project -> Tools menu. From the
 ### Running From Command Line
 
 While Project Builder has a visual execution mode, you can use it as a tool for configuring automated tasks and run them from command line. Project Builder supports a number of command line arguments. You need to pass them after `--` in your command. These arguments are:
+- `--projects-file-path`: Overrides the path of project list file.
 - `--open-project <project>`: Starts Project Builder and opens the provided `project`.
 - `--execute-routine <routine>`: On launch, executes the routine `routine`.
 - `--exit`: If executing routine, automatically exits after finishing or error.
